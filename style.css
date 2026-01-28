@@ -1,0 +1,189 @@
+.game-container {
+    text-align: center;
+    max-width: 100%;
+}
+
+h1 {
+    color: #9bbc0f;
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.score-board {
+    background-color: #0f380f;
+    color: #9bbc0f;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+canvas {
+    background-color: #9bbc0f;
+    border: 8px solid #0f380f;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    max-width: 100%;
+    height: auto;
+}
+
+.mobile-controls {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 80px);
+    grid-template-rows: repeat(3, 80px);
+    gap: 10px;
+    justify-content: center;
+}
+
+.control-btn {
+    background-color: #0f380f;
+    color: #9bbc0f;
+    border: 3px solid #9bbc0f;
+    border-radius: 10px;
+    font-size: 2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.1s;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-btn:active {
+    background-color: #9bbc0f;
+    color: #0f380f;
+    transform: scale(0.95);
+}
+
+.control-btn.up { grid-column: 2; grid-row: 1; }
+.control-btn.left { grid-column: 1; grid-row: 2; }
+.control-btn.right { grid-column: 3; grid-row: 2; }
+.control-btn.down { grid-column: 2; grid-row: 3; }
+
+.control-btn.center {
+    grid-column: 2;
+    grid-row: 2;
+    background-color: #306230;
+    border-color: #0f380f;
+    font-size: 1em;
+    cursor: default;
+}
+
+.keyboard-controls {
+    margin-top: 20px;
+    color: #9bbc0f;
+    font-size: 0.9em;
+}
+
+#gameOverScreen {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(15, 56, 15, 0.9);
+    color: #9bbc0f;
+    border-radius: 10px;
+    padding: 40px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+#gameOverScreen.show {
+    display: flex;
+}
+
+.restart-btn {
+    background-color: #9bbc0f;
+    color: #0f380f;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+:root {
+    --primary: #6a0dad;
+    --secondary: #9b5de5;
+    --accent: #f9c74f;
+    --dark: #1e1e2f;
+    --light: #f6f4fb;
+    --white: #ffffff;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --background: #4b0082;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: var(--background);
+    color: var(--light);
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    padding: 100px 10%;
+    text-align: center;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+nav a {
+    margin: 0 15px;
+    font-weight: 600;
+    color: white;
+}
+
+/* Sections */
+section {
+    padding: 80px 10%;
+    max-width: 1100px;
+    margin: auto;
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    margin-bottom: 40px;
+}
+
+section h2 {
+    color: var(--accent);
+}
+
+/* Skills */
+.skills li {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border-radius: 30px;
+    padding: 12px 20px;
+}
+
+/* Projects */
+.project-card {
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 30px;
+}
+
+/* Footer */
+footer {
+    background: var(--dark);
+    color: white;
+    text-align: center;
+    padding: 40px 10%;
+}

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Rush Dush</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(to bottom, #111, #444);
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    canvas {
+      display: block;
+      border: 3px solid #fff;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+    .info, .instructions, .title {
+      position: absolute;
+      color: white;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 12px;
+    }
+    .info {
+      top: 10px;
+      left: 10px;
+    }
+    .instructions {
+      position: absolute;
+      top: calc(50% + 60px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      padding: 6px 8px;
+      border: 1px solid #fff;
+      border-radius: 8px;
+      line-height: 1.6;
+      text-align: center;
+    }
+    .title {
+      top: 35%;
+      left: 50%;
+      transform: translate(-50%, -200%);
+      font-size: 28px;
+      color: #FFD700;
+      text-shadow: 2px 2px 5px black;
+    }
+    button {
+      position: absolute;
+      background: linear-gradient(135deg, #ff4d4d, #ff7f7f);
+      color: white;
+      font-size: 20px;
+      border: 2px solid #fff;
+      border-radius: 12px;
+      padding: 12px 20px;
+      cursor: pointer;
+      z-index: 10;
+      transition: background 0.3s ease, transform 0.1s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+    button:hover {
+      background: linear-gradient(135deg, #ff7f7f, #ff4d4d);
+      transform: translateY(-2px);
+    }
+    button:active {
+      transform: translateY(2px);
+    }
+    #pauseBtn {
+      top: 10px;
+      right: 10px;
+      font-size: 24px;
+      padding: 14px;
+      display: none;
+    }
+    #restartBtn {
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 18px;
+      padding: 12px 20px;
+      display: none;
+    }
+    #startBtn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      padding: 14px 28px;
+      display: block;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <canvas id="gameCanvas" width="600" height="400"></canvas>
+  <div class="info" id="infoText"></div>
+  <div class="instructions" id="controlsText">
+    Controls:<br>
+    ← → : Move<br>
+    ↑ : Jump<br>
+    P : Pause/Resume
+  </div>
+  <div class="title" id="gameTitle">Rush Dush</div>
+  <button id="startBtn">🎮 Start Game</button>
+  <button id="pauseBtn">⏸️</button>
+  <button id="restartBtn">🔁 Restart</button>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const lanes = [150, 300, 450];
+    const player = {
+      x: lanes[1],
+      y: 300,
+      width: 30,
+      height: 60,
+      lane: 1,
+      jumpY: 0,
+      jumping: false
+    };
+
+    let obstacles = [];
+    let coins = [];
+    let frame = 0;
+    let distance = 0;
+    let obstaclesAvoided = 0;
+    let itemsCollected = 0;
+    let gameSpeed = 4;
+    let isGameOver = false;
+    let isPaused = false;
+    let countdown = 0;
+    let countdownInterval = null;
+    let gameStarted = false;
+
+    let highestScore = localStorage.getItem("rush_highscore") || 0;
+    let lastScore = localStorage.getItem("rush_lastscore") || 0;
+
+    function drawPlayer() {
+      ctx.save();
+      ctx.translate(player.x, player.y - player.jumpY);
+      ctx.fillStyle = "#FFD700";
+      ctx.beginPath();
+      ctx.arc(0, -20, 15, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = "#000";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.fillStyle = "#fff";
+      ctx.beginPath();
+      ctx.arc(-5, -25, 3, 0, Math.PI * 2);
+      ctx.arc(5, -25, 3, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#000";
+      ctx.beginPath();
+      ctx.arc(-5, -25, 1, 0, Math.PI * 2);
+      ctx.arc(5, -25, 1, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#0095ff";
+      ctx.fillRect(-10, 0, 20, 30);
+      ctx.fillStyle = "#00BFFF";
+      ctx.fillRect(-8, 30, 16, 30);
+      ctx.fillStyle = "#555";
+      ctx.fillRect(-10, 60, 8, 10);
+      ctx.fillRect(2, 60, 8, 10);
+      ctx.restore();
+    }
+
+    function drawObstacles() {
+      obstacles.forEach(ob => {
+        const gradient = ctx.createLinearGradient(ob.x - 20, ob.y, ob.x + 20, ob.y + 40);
+        gradient.addColorStop(0, "#ff4d4d");
+        gradient.addColorStop(1, "#d9534f");
+        ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
+        ctx.shadowOffsetX = 4;
+        ctx.shadowOffsetY = 4;
+        ctx.shadowBlur = 8;
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.moveTo(ob.x - 12, ob.y);
+        ctx.lineTo(ob.x + 12, ob.y);
+        ctx.quadraticCurveTo(ob.x + 20, ob.y, ob.x + 20, ob.y + 8);
+        ctx.lineTo(ob.x + 20, ob.y + 32);
+        ctx.quadraticCurveTo(ob.x + 20, ob.y + 40, ob.x + 12, ob.y + 40);
+        ctx.lineTo(ob.x - 12, ob.y + 40);
+        ctx.quadraticCurveTo(ob.x - 20, ob.y + 40, ob.x - 20, ob.y + 32);
+        ctx.lineTo(ob.x - 20, ob.y + 8);
+        ctx.quadraticCurveTo(ob.x - 20, ob.y, ob.x - 12, ob.y);
+        ctx.closePath();
+        ctx.fill();
+        ctx.shadowColor = "transparent";
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.shadowBlur = 0;
+      });
+    }
+
+    function drawCoins() {
+      ctx.fillStyle = "gold";
+      coins.forEach(coin => {
+        ctx.beginPath();
+        ctx.arc(coin.x, coin.y, 10, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    function spawnObstacle() {
+      const lane = Math.floor(Math.random() * 3);
+      obstacles.push({ x: lanes[lane], y: -40, lane });
+    }
+
+    function spawnCoin() {
+      const lane = Math.floor(Math.random() * 3);
+      coins.push({ x: lanes[lane], y: -20, lane });
+    }
+
+    function updateGame() {
+      frame++;
+      distance += 1;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (frame % 100 === 0) spawnObstacle();
+      if (frame % 150 === 0) spawnCoin();
+
+      if (player.jumping) {
+        player.jumpY += 6;
+        if (player.jumpY >= 60) player.jumping = false;
+      } else if (player.jumpY > 0) {
+        player.jumpY -= 6;
+      }
+
+      obstacles.forEach(ob => ob.y += gameSpeed);
+      obstacles = obstacles.filter(ob => {
+        if (ob.y > canvas.height) return false;
+        if (
+          ob.lane === player.lane &&
+          ob.y + 40 > player.y - player.jumpY &&
+          ob.y < player.y + player.height - player.jumpY &&
+          player.jumpY < 20
+        ) {
+          endGame();
+          return false;
+        }
+        return true;
+      });
+
+      coins.forEach(coin => coin.y += gameSpeed);
+      coins = coins.filter(coin => {
+        if (
+          coin.lane === player.lane &&
+          coin.y + 10 > player.y - player.jumpY &&
+          coin.y < player.y + player.height - player.jumpY
+        ) {
+          itemsCollected++;
+          return false;
+        }
+        return coin.y < canvas.height;
+      });
+
+      drawObstacles();
+      drawCoins();
+      drawPlayer();
+
+      document.getElementById("infoText").innerText =
+        `Distance: ${distance} | Coins: ${itemsCollected}\nHigh: ${highestScore} | Last: ${lastScore}`;
+    }
+
+    function endGame() {
+      isGameOver = true;
+      localStorage.setItem("rush_lastscore", distance);
+      if (distance > highestScore) {
+        localStorage.setItem("rush_highscore", distance);
+        highestScore = distance;
+      }
+
+      ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#fff";
+      ctx.font = "bold 32px 'Press Start 2P', cursive";
+      ctx.textAlign = "center";
+      ctx.fillText("Game Over!", canvas.width / 2, canvas.height / 2 - 40);
+      ctx.font = "16px 'Press Start 2P', cursive";
+      ctx.fillText(`Distance: ${distance}`, canvas.width / 2, canvas.height / 2 + 10);
+      ctx.fillText(`Coins: ${itemsCollected}`, canvas.width / 2, canvas.height / 2 + 40);
+      document.getElementById("restartBtn").style.display = "block";
+    }
+
+    function gameLoop() {
+      if (isGameOver) return;
+      if (!isPaused) {
+        updateGame();
+        requestAnimationFrame(gameLoop);
+      }
+    }
+
+    function switchLane(direction) {
+      player.lane += direction;
+      player.lane = Math.max(0, Math.min(2, player.lane));
+      player.x = lanes[player.lane];
+    }
+
+    function togglePause() {
+      if (isPaused) {
+        countdown = 3;
+        drawCountdown();
+        countdownInterval = setInterval(() => {
+          countdown--;
+          if (countdown > 0) {
+            drawCountdown();
+          } else {
+            clearInterval(countdownInterval);
+            isPaused = false;
+            gameLoop();
+          }
+        }, 1000);
+      } else {
+        isPaused = true;
+        drawPauseOverlay();
+      }
+      updatePauseButton();
+    }
+
+    function drawPauseOverlay() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "white";
+      ctx.font = "bold 30px 'Press Start 2P', cursive";
+      ctx.textAlign = "center";
+      ctx.fillText("Paused", canvas.width / 2, canvas.height / 2);
+      document.getElementById("restartBtn").style.display = "block";
+    }
+
+    function drawCountdown() {
+      document.getElementById("restartBtn").style.display = "none";
+      ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "white";
+      ctx.font = "bold 48px 'Press Start 2P', cursive";
+      ctx.textAlign = "center";
+      ctx.fillText(countdown.toString(), canvas.width / 2, canvas.height / 2);
+    }
+
+    function updatePauseButton() {
+      document.getElementById("pauseBtn").innerText = isPaused ? "▶️" : "⏸️";
+    }
+
+    function startGame() {
+      gameStarted = true;
+      document.getElementById("startBtn").style.display = "none";
+      document.getElementById("controlsText").style.display = "none";
+      document.getElementById("gameTitle").style.display = "none";
+      document.getElementById("pauseBtn").style.display = "block";
+      gameLoop();
+    }
+
+    document.getElementById("startBtn").addEventListener("click", startGame);
+    document.addEventListener("keydown", (e) => {
+      if (e.code === "ArrowLeft") switchLane(-1);
+      if (e.code === "ArrowRight") switchLane(1);
+      if (e.code === "ArrowUp" && !player.jumping && player.jumpY === 0) player.jumping = true;
+      if (e.code === "KeyP") togglePause();
+    });
+
+    document.getElementById("pauseBtn").addEventListener("click", togglePause);
+    document.getElementById("restartBtn").addEventListener("click", () => {
+      document.location.reload();
+    });
+  </script>
+</body>
+</html>
