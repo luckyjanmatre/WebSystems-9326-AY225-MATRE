@@ -1,32 +1,67 @@
-<section>
-    <div class="container">
-        <div class="grid">
-            <div class="card">
-                <h2>Contact Information</h2>
-                <p style="margin-top: 20px;"><strong>Address:</strong> 3rd Floor, Tech Innovation Bldg, University Drive, City Center.</p>
-                <p><strong>Phone:</strong> (555) 123-4567</p>
-                <p><strong>Email:</strong> info@ccs-university.edu</p>
-                <h3 style="margin-top: 30px;">Office Hours</h3>
-                <p>Monday - Friday: 8:00 AM - 5:00 PM</p>
-                <p>Saturday: 9:00 AM - 12:00 PM</p>
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CCS | Contact Us</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header><div class="container nav-wrapper">
+        <a href="index.html" class="logo">CCS <span>COLLEGE</span></a>
+        <nav><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="programs.html">Programs</a></li><li><a href="faculty.html">Faculty</a></li><li><a href="announcements.html">News</a></li><li><a href="contact.html">Contact</a></li></ul></nav>
+    </div></header>
 
-            <div class="card">
-                <h2>Send an Inquiry</h2>
-                <form id="contact-form" style="margin-top: 20px;">
-                    <input type="text" placeholder="Full Name" class="form-input" required>
-                    <input type="email" id="email" placeholder="Email Address" class="form-input" required>
-                    <select class="form-input" required>
-                        <option value="">Select Topic</option>
-                        <option value="admissions">Admissions</option>
-                        <option value="scholarships">Scholarships</option>
-                        <option value="others">General Question</option>
-                    </select>
-                    <textarea placeholder="Your Message" class="form-input" rows="4" required></textarea>
-                    <button type="submit" class="btn" style="border:none; width:100%">Submit Form</button>
-                    <p id="form-status" style="margin-top:15px;"></p>
-                </form>
+    <section>
+        <div class="container">
+            <h2 style="font-size: 2.5rem; margin-bottom: 10px;">Get in Touch</h2>
+            <p style="margin-bottom: 50px; color:var(--text-muted)">Have questions about our programs or admissions? We're here to help.</p>
+
+            <div class="grid">
+                <!-- Column 1: Directory & Info -->
+                <div>
+                    <div class="card" style="margin-bottom: 20px;">
+                        <h3>Department Directory</h3>
+                        <div style="margin-top: 15px;">
+                            <p><strong>Office of the Dean:</strong><br>dean@ccs.edu | (555) 010-2233</p><br>
+                            <p><strong>Admissions Office:</strong><br>admissions@ccs.edu | (555) 010-4455</p><br>
+                            <p><strong>Internship Coordinator:</strong><br>careers@ccs.edu | (555) 010-7788</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Our Location</h3>
+                        <p style="margin-top: 10px;">Innovation Building, 4th Floor<br>University Center Drive<br>Metro Tech City, 10110</p>
+                        <div style="background: #eee; height: 150px; border-radius: 8px; margin-top: 15px; display: flex; align-items: center; justify-content: center; color: #999;">
+                            [ Embedded Map Placeholder ]
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Inquiry Form -->
+                <div class="card">
+                    <h3>Send us a Message</h3>
+                    <form id="contact-form" style="margin-top: 25px;">
+                        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <input type="text" placeholder="First Name" class="search-bar" required>
+                            <input type="text" placeholder="Last Name" class="search-bar" required>
+                        </div>
+                        <input type="email" id="email" placeholder="Email Address" class="search-bar" required>
+                        <select class="search-bar" style="background: white;">
+                            <option value="">Inquiry Type</option>
+                            <option value="General">General Inquiry</option>
+                            <option value="Admission">Admission Question</option>
+                            <option value="Visit">Schedule a Campus Tour</option>
+                        </select>
+                        <textarea placeholder="Tell us more about your inquiry..." class="search-bar" rows="6" required></textarea>
+                        
+                        <button type="submit" class="btn" style="width: 100%; border: none;">Submit Inquiry</button>
+                        <p id="status" style="margin-top: 15px; text-align: center; font-weight: 700;"></p>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

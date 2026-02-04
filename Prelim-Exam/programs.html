@@ -1,42 +1,115 @@
-<section>
-    <div class="container">
-        <h2 style="margin-bottom: 10px;">Academic Programs</h2>
-        <p style="margin-bottom: 40px;">Select a program to view details and career opportunities.</p>
-        
-        <div class="accordion">
-            <!-- Program 1 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CCS | Academic Programs</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header><div class="container nav-wrapper">
+        <a href="index.html" class="logo">CCS <span>COLLEGE</span></a>
+        <nav><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="programs.html">Programs</a></li><li><a href="faculty.html">Faculty</a></li><li><a href="announcements.html">News</a></li><li><a href="contact.html">Contact</a></li></ul></nav>
+    </div></header>
+
+    <section>
+        <div class="container">
+            <h2 style="font-size: 2.5rem; text-align: center;">Academic Programs</h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 50px;">Our curriculum is designed in collaboration with industry leaders to ensure global competitiveness.</p>
+
+            <!-- BSCS -->
             <div class="accordion-item">
-                <button class="accordion-header">B.S. in Computer Science (BSCS)</button>
+                <button class="accordion-header">
+                    <span>Bachelor of Science in Computer Science (BSCS)</span>
+                    <span>+</span>
+                </button>
                 <div class="accordion-content">
-                    <p>A 4-year degree focusing on the concepts and theories of computing and software development.</p>
-                    <ul style="margin-left: 20px; margin-top: 10px;">
-                        <li><strong>Specilizations:</strong> AI, Data Science, Game Development.</li>
-                        <li><strong>Careers:</strong> Software Engineer, Data Scientist, Systems Analyst.</li>
-                    </ul>
+                    <p>The BSCS program focuses on the concepts and theories of computing, algorithmic foundations, and implementation of software systems.</p>
+                    <div class="grid" style="margin-top: 15px; grid-template-columns: 1fr 1fr;">
+                        <div>
+                            <h4 style="color:var(--accent)">Specialization Tracks</h4>
+                            <ul>
+                                <li>Artificial Intelligence (AI)</li>
+                                <li>Data Science & Analytics</li>
+                                <li>Game Development</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color:var(--accent)">Career Outcomes</h4>
+                            <ul>
+                                <li>Software Engineer</li>
+                                <li>Research Scientist</li>
+                                <li>AI Developer</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- Program 2 -->
+
+            <!-- BSIT -->
             <div class="accordion-item">
-                <button class="accordion-header">B.S. in Information Technology (BSIT)</button>
+                <button class="accordion-header">
+                    <span>Bachelor of Science in Information Technology (BSIT)</span>
+                    <span>+</span>
+                </button>
                 <div class="accordion-content">
-                    <p>Focuses on the practical application of technology in business and organizational settings.</p>
-                    <ul style="margin-left: 20px; margin-top: 10px;">
-                        <li><strong>Specilizations:</strong> Network Security, Web Development, Mobile Dev.</li>
-                        <li><strong>Careers:</strong> Network Admin, Web Developer, IT Consultant.</li>
-                    </ul>
+                    <p>The BSIT program prepares students to design, implement, and manage IT infrastructure, including networks, web systems, and databases.</p>
+                    <div class="grid" style="margin-top: 15px; grid-template-columns: 1fr 1fr;">
+                        <div>
+                            <h4 style="color:var(--accent)">Specialization Tracks</h4>
+                            <ul>
+                                <li>Cybersecurity & Digital Forensics</li>
+                                <li>Enterprise Web Engineering</li>
+                                <li>Mobile Application Development</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color:var(--accent)">Career Outcomes</h4>
+                            <ul>
+                                <li>Network Administrator</li>
+                                <li>Full-Stack Web Developer</li>
+                                <li>IT Security Consultant</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- Program 3 -->
+
+            <!-- BSIS -->
             <div class="accordion-item">
-                <button class="accordion-header">B.S. in Information Systems (BSIS)</button>
+                <button class="accordion-header">
+                    <span>Bachelor of Science in Information Systems (BSIS)</span>
+                    <span>+</span>
+                </button>
                 <div class="accordion-content">
-                    <p>Bridges the gap between technical IT systems and business management objectives.</p>
-                    <ul style="margin-left: 20px; margin-top: 10px;">
-                        <li><strong>Specilizations:</strong> Enterprise Systems, Business Analytics.</li>
-                        <li><strong>Careers:</strong> Business Analyst, Project Manager, IT Auditor.</li>
-                    </ul>
+                    <p>The BSIS program focuses on the design and implementation of solutions that integrate information technology with business processes.</p>
+                    <div class="grid" style="margin-top: 15px; grid-template-columns: 1fr 1fr;">
+                        <div>
+                            <h4 style="color:var(--accent)">Specialization Tracks</h4>
+                            <ul>
+                                <li>Enterprise Resource Planning</li>
+                                <li>Business Process Outsourcing</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color:var(--accent)">Career Outcomes</h4>
+                            <ul>
+                                <li>Business Systems Analyst</li>
+                                <li>Project Manager</li>
+                                <li>Database Administrator</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Certification Section -->
+            <div class="card" style="margin-top: 50px; border-left: 5px solid var(--accent);">
+                <h3>Industry Certifications</h3>
+                <p>To boost employability, our students are prepared for global certifications including <strong>Cisco CCNA</strong>, <strong>CompTIA Security+</strong>, <strong>AWS Cloud Practitioner</strong>, and <strong>Oracle Java Certified Associate</strong>.</p>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

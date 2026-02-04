@@ -1,6 +1,62 @@
-<section>
-    <div class="container">
-        <h2 style="margin-bottom: 40px;">Announcements & Events</h2>
-        <div id="news-board" class="grid"></div>
-    </div>
-</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CCS | News & Events</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header><div class="container nav-wrapper">
+        <a href="index.html" class="logo">CCS <span>COLLEGE</span></a>
+        <nav><ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="programs.html">Programs</a></li>
+            <li><a href="faculty.html">Faculty</a></li>
+            <li><a href="announcements.html">News</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul></nav>
+    </div></header>
+
+    <section class="hero" style="padding: 60px 0;">
+        <div class="container">
+            <h1>Department Announcements</h1>
+            <p>Stay updated with the latest happenings, academic deadlines, and tech events in CCS.</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="grid" style="grid-template-columns: 2fr 1fr;">
+                <!-- Main News Board -->
+                <div>
+                    <h2 style="margin-bottom: 20px;">Latest Updates</h2>
+                    <div id="news-board">
+                        <!-- JavaScript will populate cards here -->
+                    </div>
+                </div>
+
+                <!-- Sidebar: Upcoming Events -->
+                <div>
+                    <div class="card" style="background: var(--navy); color: white;">
+                        <h3>Upcoming Dates</h3>
+                        <ul style="list-style: none; margin-top: 20px;">
+                            <li style="margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+                                <strong style="color:var(--accent)">Nov 20:</strong> Midterm Examination Week
+                            </li>
+                            <li style="margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+                                <strong style="color:var(--accent)">Dec 05:</strong> Senior Capstone Expo
+                            </li>
+                            <li style="margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+                                <strong style="color:var(--accent)">Dec 15:</strong> Christmas Tech Mixer
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

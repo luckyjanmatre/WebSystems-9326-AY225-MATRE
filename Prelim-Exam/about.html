@@ -1,27 +1,82 @@
-<section>
-    <div class="container">
-        <div class="grid" style="align-items: center;">
-            <div>
-                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400" alt="Dean" style="border-radius: var(--radius); width: 100%;">
-            </div>
-            <div>
-                <h2 style="color:var(--navy)">Dean's Message</h2>
-                <p><em>"At CCS, we don't just teach students how to code; we teach them how to solve problems and innovate for the better of humanity. In a rapidly changing digital landscape, our goal is to produce graduates who are both technically proficient and ethically grounded."</em></p>
-                <p><strong>- Dr. Elena Cruz, Dean of Computer Studies</strong></p>
-            </div>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CCS College | About Our College</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header><div class="container nav-wrapper">
+        <a href="index.html" class="logo">CCS <span>COLLEGE</span></a>
+        <div class="menu-toggle" id="menu-toggle"><div></div><div></div><div></div></div>
+        <nav><ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="programs.html">Programs</a></li>
+            <li><a href="faculty.html">Faculty</a></li>
+            <li><a href="announcements.html">News</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul></nav>
+    </div></header>
 
-        <div style="margin-top: 80px;">
-            <div class="grid">
+    <section>
+        <div class="container">
+            <!-- Part 1: History & Dean's Message -->
+            <div class="grid" style="align-items: center;">
+                <div>
+                    <h2 style="color:var(--navy); font-size: 2.5rem;">Our Legacy</h2>
+                    <p style="margin-top: 15px;">Founded in 2005, the College of Computer Studies (CCS) began with a vision to bridge the gap between academic theory and industry practice. Over the last two decades, we have evolved into a premier center of excellence for computing education in the region.</p>
+                    <p style="margin-top: 15px;"><em>"Innovation is not just about writing code; it's about solving the world's most complex problems. At CCS, we prepare our students to be the architects of the digital age."</em></p>
+                    <p style="margin-top: 10px; font-weight: 800;">— Dr. Elena Cruz, Dean</p>
+                </div>
+                <div class="card" style="background: var(--accent); color: white;">
+                    <h3>Quick Statistics</h3>
+                    <ul style="list-style: none; margin-top: 15px;">
+                        <li>🚀 95% Graduate Employment Rate</li>
+                        <li>💻 12 Dedicated Research Labs</li>
+                        <li>🤝 50+ Global Industry Partners</li>
+                        <li>🏆 Level IV Accredited Programs</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Part 2: Vision, Mission & Values -->
+            <div class="grid" style="margin-top: 60px;">
                 <div class="card">
-                    <h3>Our Vision</h3>
-                    <p>To be the leading hub of technological innovation and digital transformation in the region by 2030.</p>
+                    <h3 style="color:var(--accent)">Our Vision</h3>
+                    <p>To be a globally recognized institution that produces ethically-grounded innovators and leaders in the field of Computing and Information Technology.</p>
                 </div>
                 <div class="card">
-                    <h3>Our Mission</h3>
-                    <p>To provide accessible, high-quality computing education that integrates research, ethics, and industry immersion.</p>
+                    <h3 style="color:var(--accent)">Our Mission</h3>
+                    <p>To provide a rigorous, industry-aligned curriculum, foster a culture of research and development, and engage in community extension through digital literacy.</p>
+                </div>
+                <div class="card">
+                    <h3 style="color:var(--accent)">Core Values</h3>
+                    <p><strong>Innovation:</strong> Pushing boundaries. <br><strong>Integrity:</strong> Ethical tech use. <br><strong>Inclusion:</strong> Tech for everyone.</p>
+                </div>
+            </div>
+
+            <!-- Part 3: Facilities Section -->
+            <div style="margin-top: 80px;">
+                <h2 style="text-align: center;">World-Class Facilities</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h4>Cybersecurity Command Center</h4>
+                        <p>A simulated environment for threat detection, ethical hacking, and network defense training.</p>
+                    </div>
+                    <div class="card">
+                        <h4>AI & Robotics Lab</h4>
+                        <p>Equipped with high-performance GPU clusters and programmable drones for advanced research.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Mac Design Studio</h4>
+                        <p>A specialized lab for iOS development and professional UI/UX design workflows.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
