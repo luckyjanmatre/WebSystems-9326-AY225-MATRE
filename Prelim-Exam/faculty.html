@@ -1,33 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>CCS | Faculty</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <div class="logo">CCS Department</div>
-        <nav>
-            <div class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></div>
-            <ul id="nav-list">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="programs.html">Programs</a></li>
-                <li><a href="faculty.html">Faculty</a></li>
-                <li><a href="announcements.html">Announcements</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section>
+<section>
+    <div class="container">
         <h2>Faculty Directory</h2>
-        <input type="text" id="facultySearch" placeholder="Search faculty by name or expertise..." style="width: 100%; padding: 12px; margin-bottom: 20px;">
-        <div id="faculty-list" class="card-container">
-            <!-- JavaScript will populate this -->
-        </div>
-    </section>
-    <script src="script.js"></script>
-</body>
-</html>
+        <input type="text" id="faculty-search" class="search-bar" placeholder="Search faculty by name or expertise...">
+        <div id="faculty-grid" class="grid"></div>
+    </div>
+</section>

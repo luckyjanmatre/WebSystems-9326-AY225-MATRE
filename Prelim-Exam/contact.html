@@ -1,36 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>CCS | Contact</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <div class="logo">CCS Department</div>
-        <nav>
-            <div class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></div>
-            <ul id="nav-list">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="programs.html">Programs</a></li>
-                <li><a href="faculty.html">Faculty</a></li>
-                <li><a href="announcements.html">Announcements</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section>
+<section>
+    <div class="container">
         <h2>Inquiry Form</h2>
-        <form id="contact-form">
-            <input type="text" id="name" placeholder="Full Name" required>
-            <input type="email" id="email" placeholder="Email Address" required>
-            <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
-            <button type="submit" class="btn">Send Message</button>
-            <p id="form-feedback" style="margin-top: 10px;"></p>
-        </form>
-    </section>
-    <script src="script.js"></script>
-</body>
-</html>
+        <div class="card" style="max-width: 600px; margin-top: 20px;">
+            <form id="contact-form">
+                <input type="text" placeholder="Full Name" class="form-input" required>
+                <input type="email" id="email" placeholder="Email Address" class="form-input" required>
+                <textarea placeholder="Your Message" class="form-input" rows="5" required></textarea>
+                <button type="submit" class="btn" style="border:none; width:100%">Submit Inquiry</button>
+            </form>
+            <p id="form-status" style="margin-top: 15px; font-weight: 600;"></p>
+        </div>
+    </div>
+</section>
