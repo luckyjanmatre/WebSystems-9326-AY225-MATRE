@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CCS | Home</title>
+    <title>CCS | Contact</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,17 +21,16 @@
         </nav>
     </header>
 
-    <section class="hero">
-        <h1>Welcome to the College of Computer Studies</h1>
-        <p>Innovating the future through technology and excellence.</p>
-        <a href="programs.html" class="btn" style="text-decoration: none; padding: 10px 20px; background: #003366; color: white; border-radius: 5px;">View Programs</a>
-    </section>
-
     <section>
-        <h2>Our Mission</h2>
-        <p>To produce globally competitive IT professionals equipped with the skills and ethics required in the digital age.</p>
+        <h2>Inquiry Form</h2>
+        <form id="contact-form">
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="email" id="email" placeholder="Email Address" required>
+            <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
+            <button type="submit" class="btn">Send Message</button>
+            <p id="form-feedback" style="margin-top: 10px;"></p>
+        </form>
     </section>
-
     <script src="script.js"></script>
 </body>
 </html>
