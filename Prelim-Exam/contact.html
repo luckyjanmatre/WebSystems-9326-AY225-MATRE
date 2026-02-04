@@ -1,14 +1,32 @@
 <section>
     <div class="container">
-        <h2>Inquiry Form</h2>
-        <div class="card" style="max-width: 600px; margin-top: 20px;">
-            <form id="contact-form">
-                <input type="text" placeholder="Full Name" class="form-input" required>
-                <input type="email" id="email" placeholder="Email Address" class="form-input" required>
-                <textarea placeholder="Your Message" class="form-input" rows="5" required></textarea>
-                <button type="submit" class="btn" style="border:none; width:100%">Submit Inquiry</button>
-            </form>
-            <p id="form-status" style="margin-top: 15px; font-weight: 600;"></p>
+        <div class="grid">
+            <div class="card">
+                <h2>Contact Information</h2>
+                <p style="margin-top: 20px;"><strong>Address:</strong> 3rd Floor, Tech Innovation Bldg, University Drive, City Center.</p>
+                <p><strong>Phone:</strong> (555) 123-4567</p>
+                <p><strong>Email:</strong> info@ccs-university.edu</p>
+                <h3 style="margin-top: 30px;">Office Hours</h3>
+                <p>Monday - Friday: 8:00 AM - 5:00 PM</p>
+                <p>Saturday: 9:00 AM - 12:00 PM</p>
+            </div>
+
+            <div class="card">
+                <h2>Send an Inquiry</h2>
+                <form id="contact-form" style="margin-top: 20px;">
+                    <input type="text" placeholder="Full Name" class="form-input" required>
+                    <input type="email" id="email" placeholder="Email Address" class="form-input" required>
+                    <select class="form-input" required>
+                        <option value="">Select Topic</option>
+                        <option value="admissions">Admissions</option>
+                        <option value="scholarships">Scholarships</option>
+                        <option value="others">General Question</option>
+                    </select>
+                    <textarea placeholder="Your Message" class="form-input" rows="4" required></textarea>
+                    <button type="submit" class="btn" style="border:none; width:100%">Submit Form</button>
+                    <p id="form-status" style="margin-top:15px;"></p>
+                </form>
+            </div>
         </div>
     </div>
 </section>
