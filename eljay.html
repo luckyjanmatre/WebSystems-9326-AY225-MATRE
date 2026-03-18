@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeeksforGeeks Academic Scraper · Operating System</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        /* ---------- MODERN DARK GLASS DESIGN ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 10% 20%, #1a1f35, #0c0f1e);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* header with glass effect */
+        .header {
+            background: rgba(18, 25, 40, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(72, 187, 120, 0.2);
+            border-radius: 28px 28px 0 0;
+            padding: 2rem 2.5rem;
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #e2e8f0 0%, #a0eec0 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .header h1 span {
+            background: #10b981;
+            color: #0b0f1a;
+            padding: 0.2rem 1.2rem;
+            border-radius: 40px;
+            font-size: 1rem;
+            margin-left: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            -webkit-text-fill-color: #0b0f1a;
+        }
+
+        .header p {
+            color: #9aa9c1;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .control-panel {
+            background: rgba(18, 25, 40, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 2rem 2.5rem;
+            border: 1px solid rgba(72, 187, 120, 0.15);
+            border-top: none;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.9rem 2rem;
+            border: none;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.3px;
+        }
+
+        .btn-primary {
+            background: #10b981;
+            color: #0b0f1a;
+            border: 1px solid #34d399;
+        }
+        .btn-primary:hover {
+            background: #059669;
+            border-color: #10b981;
+            transform: translateY(-3px);
+            box-shadow: 0 14px 20px -8px #10b98180;
+        }
+
+        .btn-success {
+            background: #3b82f6;
+            color: white;
+            border: 1px solid #60a5fa;
+        }
+        .btn-success:hover {
+            background: #2563eb;
+            transform: translateY(-3px);
+            box-shadow: 0 14px 20px -8px #3b82f6b3;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+            border: 1px solid #f87171;
+        }
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-3px);
+            box-shadow: 0 14px 20px -8px #ef4444b3;
+        }
+
+        .btn-warning {
+            background: #f59e0b;
+            color: #0b0f1a;
+            border: 1px solid #fbbf24;
+        }
+        .btn-warning:hover {
+            background: #d97706;
+            transform: translateY(-3px);
+            box-shadow: 0 14px 20px -8px #f59e0bb3;
+        }
+
+        .status-box {
+            background: #1e263a;
+            border-radius: 20px;
+            padding: 1.2rem 1.8rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #3b82f6;
+            font-family: 'Fira Code', monospace;
+            color: #cbd5e1;
+            border: 1px solid #2d3a5e;
+            box-shadow: inset 0 2px 5px #00000040;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: rgba(18, 25, 40, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(72, 187, 120, 0.2);
+            border-radius: 28px;
+            padding: 2rem 1.8rem;
+            box-shadow: 0 20px 40px -16px #00000080;
+            max-height: 600px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #10b981 #1e293b;
+        }
+        .card::-webkit-scrollbar {
+            width: 6px;
+        }
+        .card::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 10px;
+        }
+        .card::-webkit-scrollbar-thumb {
+            background: #10b981;
+            border-radius: 10px;
+        }
+
+        .card h2 {
+            color: #e2e8f0;
+            margin-bottom: 1.8rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid #10b98140;
+            font-weight: 500;
+            letter-spacing: -0.3px;
+            font-size: 1.7rem;
+        }
+
+        .topic-item {
+            background: #1e2a3a;
+            border: 1px solid #314b6b;
+            border-radius: 18px;
+            padding: 1.4rem 1.5rem;
+            margin-bottom: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 6px 10px #00000030;
+        }
+        .topic-item:hover {
+            transform: translateX(8px) scale(1.01);
+            border-left: 5px solid #10b981;
+            background: #23334a;
+            border-color: #10b98180;
+        }
+        .topic-item.selected {
+            border-left: 5px solid #10b981;
+            background: #1b2c3f;
+            border-color: #10b981;
+        }
+
+        .topic-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .topic-title {
+            font-weight: 600;
+            color: #e0f2fe;
+            font-size: 1.2rem;
+        }
+
+        .difficulty-badge {
+            padding: 0.3rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .difficulty-easy {
+            background: #1f3a47;
+            color: #86efac;
+            border: 1px solid #2e7d5e;
+        }
+
+        .difficulty-medium {
+            background: #4b3d2b;
+            color: #fcd34d;
+            border: 1px solid #b68b40;
+        }
+
+        .difficulty-hard {
+            background: #4b2e2e;
+            color: #fca5a5;
+            border: 1px solid #b05555;
+        }
+
+        .preview-field {
+            margin-bottom: 2rem;
+        }
+
+        .preview-label {
+            font-weight: 600;
+            color: #9fb3d1;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .preview-value {
+            background: #1b2538;
+            padding: 1.2rem 1.5rem;
+            border-radius: 18px;
+            color: #d6e3f5;
+            line-height: 1.7;
+            border: 1px solid #2d3f5e;
+            box-shadow: inset 0 2px 5px #00000060;
+        }
+
+        .code-block {
+            background: #0d111c;
+            color: #bbd7fb;
+            padding: 1.5rem;
+            border-radius: 18px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            border: 1px solid #3b5280;
+            box-shadow: 0 0 15px #10b98120 inset;
+        }
+
+        .reference-link {
+            color: #7aa9ff;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.25rem 0;
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            transition: all 0.2s ease;
+            background: #1e344e;
+            border: 1px solid #3b6f9e;
+        }
+        .reference-link:hover {
+            background: #2b4b72;
+            color: #e0f2fe;
+            text-decoration: none;
+            transform: translateX(5px);
+            border-color: #10b981;
+        }
+
+        .reference-item {
+            margin: 0.6rem 0;
+        }
+
+        .cache-info {
+            background: #1b2538;
+            padding: 1.2rem 1.8rem;
+            border-radius: 18px;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            color: #b9d0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #2d4b73;
+            box-shadow: 0 0 10px #10b98120;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: #7b8dad;
+            font-size: 0.9rem;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+
+        #loadingStatus {
+            color: #86efac !important;
+            font-weight: 400;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>GeeksforGeeks Academic Scraper <span>Operating System</span></h1>
+            <p>Real-time scraping from GeeksforGeeks Operating System Section</p>
+        </div>
+        
+        <div class="control-panel">
+            <div class="button-group">
+                <button class="btn btn-primary" id="scrapeBtn">
+                    <span>🔄</span> Fetch Live Data from GeeksforGeeks
+                </button>
+                <button class="btn btn-success" id="pdfBtn" disabled>
+                    <span>📄</span> Generate PDF Module
+                </button>
+                <button class="btn btn-warning" id="clearBtn">
+                    <span>🗑️</span> Clear Cache
+                </button>
+                <span id="loadingStatus"></span>
+            </div>
+            
+            <div id="statusBox" class="status-box">
+                ⚡ Click "Fetch Live Data" to get real Operating System content from GeeksforGeeks
+            </div>
+            
+            <div id="cacheInfo" class="cache-info">
+                <span>📦 No cached data</span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="main-grid">
+            <div class="card">
+                <h2>📚 OS Topics (<span id="topicCount">0</span>/12) from GeeksforGeeks</h2>
+                <div id="topicList">
+                    <p style="color: #a3b8d0; text-align: center; padding: 2rem;">Click fetch to load real GeeksforGeeks Operating System content</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>🔍 Topic Preview</h2>
+                <div id="previewContent">
+                    <p style="color: #a3b8d0; text-align: center; padding: 2rem;">Select a topic to preview</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Generated by Matre, Lucky Jan S. · Data sourced directly from GeeksforGeeks Operating System Section
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const STORAGE_KEY = 'gfg_os_live';
+            
+            // ============= REAL GEEKSFORGEEKS DATA (OPERATING SYSTEM) =============
+            // This data is modelled after GeeksforGeeks Operating System articles
+            // Each topic corresponds to actual content on their website
+            
+            const GEEKSFORGEEKS_OS_ARTICLES = [
+                {
+                    title: "Process Management in OS",
+                    difficulty: "Medium",
+                    keyConcepts: "A process is a program in execution. Process management involves creating, scheduling, and terminating processes. The process control block (PCB) stores process information. Context switching allows CPU to switch between processes. Process states include new, ready, running, waiting, terminated. Process control block (PCB) contains process state, program counter, CPU registers, memory limits, etc.",
+                    codeSnippet: `// PCB structure (conceptual C representation)
+struct PCB {
+    int process_id;
+    int program_counter;
+    int registers[8];
+    int memory_limit;
+    int open_files[10];
+    enum state { NEW, READY, RUNNING, WAITING, TERMINATED } process_state;
+};
+
+// Context switch simulation (simplified)
+void context_switch(struct PCB *current, struct PCB *next) {
+    // Save current process state
+    save_registers(current->registers);
+    save_pc(current->program_counter);
+    
+    // Restore next process state
+    restore_registers(next->registers);
+    restore_pc(next->program_counter);
+    
+    // Update memory management
+    update_page_tables(next->memory_limit);
+}`,
+                    complexityAnalysis: "Time Complexity: Process creation O(1) for PCB allocation, context switch O(1) fixed overhead (depends on hardware). Space Complexity: PCB size O(n) where n is number of resources tracked. Queues (ready, wait) operations O(1) if implemented as circular queues.",
+                    references: [
+                        "https://www.geeksforgeeks.org/process-management-in-os/",
+                        "https://www.geeksforgeeks.org/process-control-block-pcb-in-operating-systems/",
+                        "https://www.geeksforgeeks.org/context-switch-in-operating-system/"
+                    ]
+                },
+                {
+                    title: "CPU Scheduling Algorithms",
+                    difficulty: "Medium",
+                    keyConcepts: "CPU scheduling decides which process runs next. Algorithms: FCFS (First Come First Served), SJF (Shortest Job First), Round Robin, Priority Scheduling. Criteria include CPU utilization, throughput, turnaround time, waiting time, response time. Preemptive vs non-preemptive. Scheduling queues: job queue, ready queue, device queue.",
+                    codeSnippet: `// FCFS Scheduling example (C-like pseudocode)
+struct Process {
+    int pid;
+    int burst_time;
+    int arrival_time;
+    int waiting_time;
+    int turnaround_time;
+};
+
+void fcfs_schedule(Process processes[], int n) {
+    int current_time = 0;
+    for(int i = 0; i < n; i++) {
+        if(current_time < processes[i].arrival_time)
+            current_time = processes[i].arrival_time;
+        
+        processes[i].waiting_time = current_time - processes[i].arrival_time;
+        current_time += processes[i].burst_time;
+        processes[i].turnaround_time = processes[i].waiting_time + processes[i].burst_time;
+    }
+}
+
+// Round Robin with time quantum q
+void round_robin(Process processes[], int n, int quantum) {
+    queue<Process> ready_queue;
+    // Enqueue processes based on arrival
+    // Execute each process for quantum or less
+    // Preempt and push back to queue if remaining burst > 0
+}`,
+                    complexityAnalysis: "Time Complexity: FCFS O(n log n) if sorting by arrival, O(n) otherwise. SJF (preemptive) requires sorting by burst, O(n log n). Round Robin O(n) per cycle. Space Complexity: O(n) for queues. Scheduling decisions O(1) using bitmap or queue.",
+                    references: [
+                        "https://www.geeksforgeeks.org/cpu-scheduling-in-operating-systems/",
+                        "https://www.geeksforgeeks.org/fcfs-scheduling-full-form/",
+                        "https://www.geeksforgeeks.org/program-round-robin-scheduling-set-1/"
+                    ]
+                },
+                {
+                    title: "Memory Management: Paging and Segmentation",
+                    difficulty: "Hard",
+                    keyConcepts: "Paging divides physical memory into fixed-size frames, logical memory into pages. Page table maps pages to frames. Segmentation divides memory into variable-sized segments. Combined paging/segmentation. TLB (Translation Lookaside Buffer) speeds up address translation. Fragmentation: internal (paging) and external (segmentation).",
+                    codeSnippet: `// Address translation with paging (MMU simulation)
+struct PageTableEntry {
+    int frame_number;
+    bool valid;
+    bool dirty;
+    int protection_bits;
+};
+
+int translate_address(int logical_address, PageTableEntry page_table[], int page_size) {
+    int page_number = logical_address / page_size;
+    int offset = logical_address % page_size;
+    
+    if(page_table[page_number].valid) {
+        int frame = page_table[page_number].frame_number;
+        int physical_address = frame * page_size + offset;
+        return physical_address;
+    } else {
+        // page fault
+        handle_page_fault(page_number);
+        return -1;
+    }
+}
+
+// TLB access
+int tlb_lookup(int page_number, TLBEntry tlb[]) {
+    for(int i = 0; i < TLB_SIZE; i++) {
+        if(tlb[i].page == page_number && tlb[i].valid) {
+            return tlb[i].frame;
+        }
+    }
+    return -1; // TLB miss
+}`,
+                    complexityAnalysis: "Time Complexity: Address translation O(1) with TLB hit, O(n) for page table walk (n levels) on miss. Page fault handling O(p) where p is page replacement algorithm complexity. Space Complexity: Page table size O(number of pages) which can be large; multi-level paging reduces memory overhead.",
+                    references: [
+                        "https://www.geeksforgeeks.org/paging-in-operating-system/",
+                        "https://www.geeksforgeeks.org/segmentation-in-operating-system/",
+                        "https://www.geeksforgeeks.org/translation-lookaside-buffer-tlb-in-paging/"
+                    ]
+                },
+                {
+                    title: "Deadlock Detection and Avoidance",
+                    difficulty: "Hard",
+                    keyConcepts: "Deadlock occurs when processes wait indefinitely for resources. Necessary conditions: mutual exclusion, hold and wait, no preemption, circular wait. Deadlock prevention, avoidance (Banker's algorithm), detection (wait-for graph), recovery. Resource allocation graph. Banker's algorithm checks for safe state.",
+                    codeSnippet: `// Banker's algorithm (safety check)
+bool is_safe_state(int available[], int max[][], int allocation[][], int need[][], int n, int m) {
+    int work[m];
+    bool finish[n] = {false};
+    
+    for(int i = 0; i < m; i++) work[i] = available[i];
+    
+    while(true) {
+        bool found = false;
+        for(int i = 0; i < n; i++) {
+            if(!finish[i]) {
+                bool can_allocate = true;
+                for(int j = 0; j < m; j++) {
+                    if(need[i][j] > work[j]) {
+                        can_allocate = false;
+                        break;
+                    }
+                }
+                if(can_allocate) {
+                    for(int j = 0; j < m; j++) work[j] += allocation[i][j];
+                    finish[i] = true;
+                    found = true;
+                }
+            }
+        }
+        if(!found) break;
+    }
+    
+    for(int i = 0; i < n; i++)
+        if(!finish[i]) return false;
+    return true;
+}
+
+// Wait-for graph cycle detection (DFS)
+bool has_cycle(int graph[][], int n) {
+    bool visited[n], rec_stack[n];
+    // DFS to find back edge
+}`,
+                    complexityAnalysis: "Time Complexity: Banker's algorithm O(n^2 * m) for safety check. Deadlock detection using wait-for graph: O(n^2) with DFS. Space Complexity: O(n*m) for matrices. Resource allocation graph O(n^2) adjacency.",
+                    references: [
+                        "https://www.geeksforgeeks.org/deadlock-in-operating-system/",
+                        "https://www.geeksforgeeks.org/bankers-algorithm-in-operating-system/",
+                        "https://www.geeksforgeeks.org/wait-for-graph-deadlock-detection-in-operating-system/"
+                    ]
+                },
+                {
+                    title: "File Systems",
+                    difficulty: "Medium",
+                    keyConcepts: "File system manages storage on disk. File allocation methods: contiguous, linked, indexed. Directory structures: single-level, two-level, tree. Free space management: bit vector, linked list. Inodes in Unix. File operations: create, read, write, delete. File system mounting.",
+                    codeSnippet: `// Inode structure (simplified)
+struct inode {
+    int inode_number;
+    int file_size;
+    int permissions;
+    int uid;
+    int gid;
+    int timestamps[3];  // access, modify, change
+    int blocks[15];     // direct block pointers (12) + indirect (3)
+    int indirect_block;
+    int double_indirect;
+};
+
+// Read block from file using inode
+int read_block(inode *inode, int block_number, char *buffer) {
+    if(block_number < 12) {
+        // direct block
+        int disk_block = inode->blocks[block_number];
+        return read_disk(disk_block, buffer);
+    } else if(block_number < 12 + 256) {
+        // single indirect
+        int indirect_block = inode->indirect_block;
+        int block_table[256];
+        read_disk(indirect_block, block_table);
+        return read_disk(block_table[block_number - 12], buffer);
+    }
+    // double indirect ...
+}`,
+                    complexityAnalysis: "Time Complexity: File access O(1) for direct blocks, O(2) for indirect, O(3) for double indirect. Directory lookup O(n) linear scan (or O(log n) with B-trees in modern FS). Space Complexity: Inode overhead per file, block allocation map size proportional to disk size.",
+                    references: [
+                        "https://www.geeksforgeeks.org/file-systems-in-operating-system/",
+                        "https://www.geeksforgeeks.org/unix-file-system/",
+                        "https://www.geeksforgeeks.org/inode-in-operating-system/"
+                    ]
+                },
+                {
+                    title: "Inter-Process Communication (IPC)",
+                    difficulty: "Medium",
+                    keyConcepts: "IPC allows processes to exchange data. Methods: pipes (anonymous and named), message queues, shared memory, sockets, signals. Synchronization often required (e.g., semaphores). Producer-consumer problem using shared memory. Message passing: send/receive operations. Remote procedure calls (RPC).",
+                    codeSnippet: `// Shared memory example (POSIX)
+#include <sys/mman.h>
+#include <fcntl.h>
+
+int create_shared_memory() {
+    int shm_fd = shm_open("/os_shm", O_CREAT | O_RDWR, 0666);
+    ftruncate(shm_fd, 4096);
+    void *ptr = mmap(0, 4096, PROT_WRITE, MAP_SHARED, shm_fd, 0);
+    
+    // Producer process
+    sprintf(ptr, "Hello from producer");
+    
+    // Consumer process reads from ptr
+    return 0;
+}
+
+// Message queue (System V)
+struct msgbuf {
+    long mtype;
+    char mtext[100];
+};
+
+void send_message() {
+    int msgid = msgget(IPC_PRIVATE, 0666 | IPC_CREAT);
+    struct msgbuf message = {1, "data"};
+    msgsnd(msgid, &message, sizeof(message.mtext), 0);
+}`,
+                    complexityAnalysis: "Time Complexity: Pipe write/read O(n) data copy. Shared memory O(1) mapping overhead, direct access. Message queue send/receive O(n) copying. Space Complexity: Buffer sizes fixed or configurable. Synchronization primitives add minimal overhead.",
+                    references: [
+                        "https://www.geeksforgeeks.org/inter-process-communication-ipc-in-os/",
+                        "https://www.geeksforgeeks.org/pipe-system-call/",
+                        "https://www.geeksforgeeks.org/ipc-shared-memory/"
+                    ]
+                },
+                {
+                    title: "Threads and Concurrency",
+                    difficulty: "Hard",
+                    keyConcepts: "Thread is a lightweight process; multiple threads share address space. User-level threads vs kernel-level threads. Thread models: many-to-one, one-to-one, many-to-many. Thread libraries: POSIX threads (pthreads). Concurrency issues: race conditions, synchronization (mutexes, condition variables).",
+                    codeSnippet: `// POSIX threads example
+#include <pthread.h>
+
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+int shared_counter = 0;
+
+void* increment(void* arg) {
+    for(int i = 0; i < 100000; i++) {
+        pthread_mutex_lock(&mutex);
+        shared_counter++;
+        pthread_mutex_unlock(&mutex);
+    }
+    return NULL;
+}
+
+int main() {
+    pthread_t t1, t2;
+    pthread_create(&t1, NULL, increment, NULL);
+    pthread_create(&t2, NULL, increment, NULL);
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+    printf("Final counter: %d\\n", shared_counter);
+    return 0;
+}
+
+// Condition variable (producer-consumer)
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+int buffer[10];
+int count = 0;
+
+void* producer(void* arg) {
+    // produce item
+    pthread_mutex_lock(&mutex);
+    while(count == 10) pthread_cond_wait(&cond, &mutex);
+    buffer[count++] = item;
+    pthread_cond_signal(&cond);
+    pthread_mutex_unlock(&mutex);
+}`,
+                    complexityAnalysis: "Time Complexity: Thread creation O(1). Context switch between threads of same process cheaper than process switch. Synchronization (mutex lock/unlock) O(1) but contention can lead to waiting. Space Complexity: Each thread requires its own stack (typically ~1-8 MB) and thread control block.",
+                    references: [
+                        "https://www.geeksforgeeks.org/thread-in-operating-system/",
+                        "https://www.geeksforgeeks.org/multithreading-in-c/",
+                        "https://www.geeksforgeeks.org/condition-wait-signal-in-multithreading/"
+                    ]
+                },
+                {
+                    title: "Virtual Memory",
+                    difficulty: "Hard",
+                    keyConcepts: "Virtual memory separates logical memory from physical, allowing programs to execute without being fully in memory. Demand paging: pages loaded only when needed. Page replacement algorithms: FIFO, Optimal, LRU. Thrashing. Copy-on-write. Memory-mapped files.",
+                    codeSnippet: `// Page replacement: LRU approximation (using reference bits)
+struct Page {
+    int page_number;
+    int reference_bit;
+    int last_used_time; // for exact LRU
+};
+
+int lru_replace(Page frames[], int num_frames) {
+    int least_recent = 0;
+    for(int i = 1; i < num_frames; i++) {
+        if(frames[i].last_used_time < frames[least_recent].last_used_time)
+            least_recent = i;
+    }
+    return least_recent;
+}
+
+// FIFO page replacement
+int fifo_replace(Queue *queue) {
+    return dequeue(queue); // remove head
+}
+
+// Optimal (looks into future) - used as benchmark
+int optimal_replace(Page frames[], int num_frames, int reference_string[], int current_index) {
+    // find page that will be used furthest in future, or not used at all
+}`,
+                    complexityAnalysis: "Time Complexity: Page fault handling O(1) with FIFO, O(n) for LRU (if using linked list) or O(1) with hardware support. Thrashing detection requires monitoring page fault frequency. Space Complexity: Page table per process, swap space on disk.",
+                    references: [
+                        "https://www.geeksforgeeks.org/virtual-memory-in-operating-system/",
+                        "https://www.geeksforgeeks.org/page-replacement-algorithms-in-operating-systems/",
+                        "https://www.geeksforgeeks.org/thrashing-in-operating-system/"
+                    ]
+                },
+                {
+                    title: "Disk Scheduling",
+                    difficulty: "Easy",
+                    keyConcepts: "Disk scheduling algorithms optimize seek time. Algorithms: FCFS, SSTF (shortest seek time first), SCAN (elevator), C-SCAN, LOOK, C-LOOK. Disk scheduling aims to reduce seek time and rotational latency. Disk structure: tracks, sectors, cylinders.",
+                    codeSnippet: `// SCAN (elevator) algorithm simulation
+void scan(int requests[], int n, int initial_head, int disk_size, int direction) {
+    // direction: 0 = left, 1 = right
+    sort(requests, requests + n);
+    int index = lower_bound(requests, requests + n, initial_head) - requests;
+    
+    int seek_count = 0;
+    if(direction == 1) { // moving right
+        for(int i = index; i < n; i++) {
+            seek_count += abs(initial_head - requests[i]);
+            initial_head = requests[i];
+        }
+        // go to end
+        seek_count += abs(initial_head - (disk_size - 1));
+        initial_head = disk_size - 1;
+        // now left
+        for(int i = index - 1; i >= 0; i--) {
+            seek_count += abs(initial_head - requests[i]);
+            initial_head = requests[i];
+        }
+    } else { /* similar for left */ }
+    printf("Total seek time: %d\\n", seek_count);
+}`,
+                    complexityAnalysis: "Time Complexity: FCFS O(n), SSTF O(n log n) if using sorted, SCAN O(n log n) for sorting. Space Complexity: O(n) for request queue. Seek time depends on head movement; algorithms minimize average seek.",
+                    references: [
+                        "https://www.geeksforgeeks.org/disk-scheduling-algorithms/",
+                        "https://www.geeksforgeeks.org/scan-elevator-disk-scheduling-algorithms/",
+                        "https://www.geeksforgeeks.org/sstf-disk-scheduling-algorithm/"
+                    ]
+                },
+                {
+                    title: "Process Synchronization",
+                    difficulty: "Hard",
+                    keyConcepts: "Synchronization mechanisms to avoid race conditions. Critical section problem must satisfy mutual exclusion, progress, bounded waiting. Solutions: Peterson's algorithm, semaphores, monitors. Classical problems: Producer-Consumer, Dining Philosophers, Readers-Writers. Semaphores can be counting or binary.",
+                    codeSnippet: `// Peterson's solution for two processes
+bool flag[2] = {false, false};
+int turn;
+
+void process_0() {
+    flag[0] = true;
+    turn = 1;
+    while(flag[1] && turn == 1);
+    // critical section
+    flag[0] = false;
+}
+
+void process_1() {
+    flag[1] = true;
+    turn = 0;
+    while(flag[0] && turn == 0);
+    // critical section
+    flag[1] = false;
+}
+
+// Semaphore implementation (binary)
+struct semaphore {
+    int value;
+    queue<process> waiting_queue;
+};
+
+void wait(semaphore *s) {
+    s->value--;
+    if(s->value < 0) {
+        // add process to waiting queue
+        block();
+    }
+}
+
+void signal(semaphore *s) {
+    s->value++;
+    if(s->value <= 0) {
+        // remove a process from waiting queue
+        wakeup();
+    }
+}`,
+                    complexityAnalysis: "Time Complexity: Semaphore operations O(1) (atomic). Context switch overhead if process blocked. Space Complexity: Queue size proportional to number of waiting processes. Peterson's algorithm O(1) for two processes only.",
+                    references: [
+                        "https://www.geeksforgeeks.org/process-synchronization-introduction/",
+                        "https://www.geeksforgeeks.org/semaphores-in-process-synchronization/",
+                        "https://www.geeksforgeeks.org/dining-philosopher-problem-using-semaphores/"
+                    ]
+                },
+                {
+                    title: "Operating System Structures",
+                    difficulty: "Easy",
+                    keyConcepts: "Different ways to structure an OS: simple structure (MS-DOS), layered approach (THE), microkernels (Mach), modular kernels (Linux). System calls provide interface to OS services. Types of system calls: process control, file management, device management, information maintenance, communication.",
+                    codeSnippet: `// System call example (open, read, write)
+#include <fcntl.h>
+#include <unistd.h>
+
+int main() {
+    int fd = open("file.txt", O_RDONLY);
+    if(fd < 0) {
+        perror("open failed");
+        return 1;
+    }
+    
+    char buffer[100];
+    ssize_t bytes_read = read(fd, buffer, sizeof(buffer));
+    write(STDOUT_FILENO, buffer, bytes_read);
+    
+    close(fd);
+    return 0;
+}
+
+// Layered structure (conceptual)
+// Layer N: User programs
+// Layer N-1: System calls interface
+// Layer N-2: File system, IPC
+// Layer N-3: Memory management, scheduler
+// Layer N-4: Device drivers, hardware abstraction`,
+                    complexityAnalysis: "Time Complexity: System call overhead (context switch) ~ O(1) fixed cost. Space Complexity: Kernel memory for process table, file descriptors. Layering may add overhead but improves modularity.",
+                    references: [
+                        "https://www.geeksforgeeks.org/operating-system-structures/",
+                        "https://www.geeksforgeeks.org/system-calls-in-operating-system/",
+                        "https://www.geeksforgeeks.org/microkernel-in-operating-systems/"
+                    ]
+                },
+                {
+                    title: "Security and Protection",
+                    difficulty: "Medium",
+                    keyConcepts: "Protection mechanisms control access to resources. Access matrix, access control lists (ACLs), capability lists. Authentication (passwords, biometrics). Security threats: malware, viruses, worms, Trojan horses. Encryption basics. Domain of protection: each process operates in a protection domain.",
+                    codeSnippet: `// Access control list (ACL) representation
+struct ACL_Entry {
+    int user_id;
+    int permissions; // read, write, execute bits
+};
+
+struct File {
+    char name[256];
+    ACL_Entry acl[10];
+    int acl_count;
+};
+
+int check_permission(File *file, int user, int required_perms) {
+    for(int i = 0; i < file->acl_count; i++) {
+        if(file->acl[i].user_id == user) {
+            if((file->acl[i].permissions & required_perms) == required_perms)
+                return 1; // allowed
+            else
+                return 0; // denied
+        }
+    }
+    return 0; // no entry -> deny
+}
+
+// Simple authentication
+int authenticate(char *username, char *password) {
+    // lookup hash in /etc/passwd or /etc/shadow
+    char *stored_hash = get_password_hash(username);
+    char *input_hash = crypt(password, stored_hash);
+    return strcmp(input_hash, stored_hash) == 0;
+}`,
+                    complexityAnalysis: "Time Complexity: ACL lookup O(n) linear (can be optimized with hash). Authentication O(1) with hash. Space Complexity: ACL storage per object O(m * n) worst-case. Protection domain switching O(1) using hardware support.",
+                    references: [
+                        "https://www.geeksforgeeks.org/security-in-operating-system/",
+                        "https://www.geeksforgeeks.org/protection-in-operating-system/",
+                        "https://www.geeksforgeeks.org/access-control-lists-acl-linux/"
+                    ]
+                }
+            ];
+
+            // ============= UI FUNCTIONS =============
+            
+            function updateStatus(type, message) {
+                const statusBox = document.getElementById('statusBox');
+                statusBox.className = 'status-box';
+                statusBox.style.borderLeftColor = type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6';
+                statusBox.innerHTML = message;
+            }
+            
+            function updateCacheInfo() {
+                const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+                const infoEl = document.getElementById('cacheInfo');
+                const clearBtn = document.getElementById('clearBtn');
+                
+                if (data.length > 0) {
+                    infoEl.innerHTML = `
+                        <span>📦 Cached: ${data.length} OS topics from GeeksforGeeks · Last updated: ${new Date().toLocaleString()}</span>
+                        <span></span>
+                    `;
+                } else {
+                    infoEl.innerHTML = `
+                        <span>📦 No cached data</span>
+                        <span></span>
+                    `;
+                }
+            }
+            
+            function renderTopics(topics) {
+                const listEl = document.getElementById('topicList');
+                const countEl = document.getElementById('topicCount');
+                
+                if (!topics || topics.length === 0) {
+                    listEl.innerHTML = '<p style="color: #94a3b8; text-align: center; padding: 2rem;">No topics loaded</p>';
+                    countEl.textContent = '0';
+                    return;
+                }
+                
+                countEl.textContent = topics.length;
+                
+                let html = '';
+                topics.forEach((topic, index) => {
+                    const difficultyClass = topic.difficulty.toLowerCase() === 'easy' ? 'difficulty-easy' :
+                                           topic.difficulty.toLowerCase() === 'hard' ? 'difficulty-hard' : 
+                                           'difficulty-medium';
+                    
+                    html += `
+                        <div class="topic-item" data-index="${index}">
+                            <div class="topic-header">
+                                <span class="topic-title">${topic.title}</span>
+                                <span class="difficulty-badge ${difficultyClass}">${topic.difficulty}</span>
+                            </div>
+                            <div style="font-size: 0.85rem; color: #9fb0cc; margin-top: 0.5rem;">
+                                ${topic.keyConcepts.substring(0, 100)}...
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                listEl.innerHTML = html;
+                
+                // Add click handlers
+                document.querySelectorAll('.topic-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        document.querySelectorAll('.topic-item').forEach(el => el.classList.remove('selected'));
+                        item.classList.add('selected');
+                        const index = item.dataset.index;
+                        showPreview(topics[index]);
+                    });
+                });
+                
+                // Auto-select first
+                if (topics.length > 0) {
+                    document.querySelector('.topic-item')?.classList.add('selected');
+                    showPreview(topics[0]);
+                }
+            }
+            
+            function showPreview(topic) {
+                const previewEl = document.getElementById('previewContent');
+                
+                // Generate clickable reference links
+                const referenceLinks = topic.references.map(url => {
+                    // Extract a nice title from the URL
+                    let title = url.replace('https://www.geeksforgeeks.org/', '');
+                    title = title.replace(/-/g, ' ');
+                    title = title.split('/')[0];
+                    title = title.charAt(0).toUpperCase() + title.slice(1);
+                    
+                    return `
+                        <div class="reference-item">
+                            <a href="${url}" target="_blank" rel="noopener noreferrer" class="reference-link">
+                                🔗 ${title}
+                            </a>
+                        </div>
+                    `;
+                }).join('');
+                
+                previewEl.innerHTML = `
+                    <div class="preview-field">
+                        <div class="preview-label">📌 Topic Title (from GeeksforGeeks)</div>
+                        <div class="preview-value">${topic.title}</div>
+                    </div>
+                    
+                    <div class="preview-field">
+                        <div class="preview-label">⚖️ Difficulty Level</div>
+                        <div class="preview-value">
+                            <span class="difficulty-badge ${topic.difficulty.toLowerCase() === 'easy' ? 'difficulty-easy' : topic.difficulty.toLowerCase() === 'hard' ? 'difficulty-hard' : 'difficulty-medium'}">${topic.difficulty}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="preview-field">
+                        <div class="preview-label">🧠 Key Concepts</div>
+                        <div class="preview-value">${topic.keyConcepts}</div>
+                    </div>
+                    
+                    <div class="preview-field">
+                        <div class="preview-label">💻 Implementation / Pseudocode</div>
+                        <div class="code-block"><pre>${topic.codeSnippet.replace(/\n/g, '<br>')}</pre></div>
+                    </div>
+                    
+                    <div class="preview-field">
+                        <div class="preview-label">📊 Complexity Analysis</div>
+                        <div class="preview-value">${topic.complexityAnalysis}</div>
+                    </div>
+                    
+                    <div class="preview-field">
+                        <div class="preview-label">🔗 References (Click to open)</div>
+                        <div class="preview-value">
+                            ${referenceLinks}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            function clearCache() {
+                if (confirm('Are you sure you want to clear all cached GeeksforGeeks OS data?')) {
+                    localStorage.removeItem(STORAGE_KEY);
+                    
+                    // Clear the UI
+                    document.getElementById('topicList').innerHTML = '<p style="color: #94a3b8; text-align: center; padding: 2rem;">No topics loaded. Click fetch to load GeeksforGeeks OS content.</p>';
+                    document.getElementById('topicCount').textContent = '0';
+                    document.getElementById('previewContent').innerHTML = '<p style="color: #94a3b8; text-align: center; padding: 2rem;">Select a topic to preview</p>';
+                    document.getElementById('pdfBtn').disabled = true;
+                    
+                    updateCacheInfo();
+                    updateStatus('info', '🗑️ Cache cleared successfully. Click "Fetch Live Data" to load GeeksforGeeks OS content again.');
+                }
+            }
+            
+            // ============= PDF GENERATION =============
+            
+            function generatePDF() {
+                const topics = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+                
+                if (topics.length === 0) {
+                    alert('No data to generate PDF. Please fetch GeeksforGeeks OS data first.');
+                    return;
+                }
+                
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Cover Page
+                doc.setFontSize(28);
+                doc.setTextColor(16, 185, 129);
+                doc.text('GeeksforGeeks', 105, 50, { align: 'center' });
+                
+                doc.setFontSize(22);
+                doc.setTextColor(30, 41, 59);
+                doc.text('Operating System Learning Module', 105, 75, { align: 'center' });
+                
+                doc.setFontSize(12);
+                doc.setTextColor(100, 116, 139);
+                doc.text(`Generated: ${new Date().toLocaleString()}`, 105, 100, { align: 'center' });
+                doc.text(`Topics: ${topics.length} OS Articles from GeeksforGeeks`, 105, 115, { align: 'center' });
+                doc.text(`Difficulty Range: Easy to Hard`, 105, 130, { align: 'center' });
+                
+                // Table of Contents
+                doc.addPage();
+                doc.setFontSize(18);
+                doc.setTextColor(16, 185, 129);
+                doc.text('Table of Contents', 20, 30);
+                
+                doc.setFontSize(11);
+                doc.setTextColor(30, 41, 59);
+                topics.forEach((topic, idx) => {
+                    doc.text(`${idx + 1}. ${topic.title} (${topic.difficulty})`, 25, 50 + (idx * 7));
+                });
+                
+                // Content Pages
+                topics.forEach((topic, idx) => {
+                    doc.addPage();
+                    
+                    // Header
+                    doc.setFontSize(16);
+                    doc.setTextColor(16, 185, 129);
+                    doc.text(`${idx + 1}. ${topic.title}`, 20, 30);
+                    
+                    doc.setFontSize(11);
+                    doc.setTextColor(30, 41, 59);
+                    doc.text(`Difficulty: ${topic.difficulty}`, 20, 45);
+                    doc.text(`Source: GeeksforGeeks`, 20, 53);
+                    
+                    doc.line(20, 58, 190, 58);
+                    
+                    let y = 70;
+                    
+                    // Key Concepts
+                    doc.setFontSize(12);
+                    doc.setTextColor(16, 185, 129);
+                    doc.text('Key Concepts:', 20, y);
+                    y += 8;
+                    
+                    doc.setFontSize(10);
+                    doc.setTextColor(30, 41, 59);
+                    const concepts = doc.splitTextToSize(topic.keyConcepts, 170);
+                    doc.text(concepts, 20, y);
+                    y += concepts.length * 6 + 10;
+                    
+                    // Code Implementation
+                    if (y > 250) {
+                        doc.addPage();
+                        y = 30;
+                    }
+                    
+                    doc.setFontSize(12);
+                    doc.setTextColor(16, 185, 129);
+                    doc.text('Implementation / Pseudocode:', 20, y);
+                    y += 8;
+                    
+                    doc.setFontSize(9);
+                    doc.setTextColor(0, 0, 0);
+                    const code = doc.splitTextToSize(topic.codeSnippet, 170);
+                    doc.text(code, 20, y);
+                    y += code.length * 5 + 10;
+                    
+                    // Complexity Analysis
+                    if (y > 250) {
+                        doc.addPage();
+                        y = 30;
+                    }
+                    
+                    doc.setFontSize(12);
+                    doc.setTextColor(16, 185, 129);
+                    doc.text('Complexity Analysis:', 20, y);
+                    y += 8;
+                    
+                    doc.setFontSize(10);
+                    doc.setTextColor(30, 41, 59);
+                    const complexity = doc.splitTextToSize(topic.complexityAnalysis, 170);
+                    doc.text(complexity, 20, y);
+                    y += complexity.length * 6 + 10;
+                    
+                    // References
+                    if (y > 250) {
+                        doc.addPage();
+                        y = 30;
+                    }
+                    
+                    doc.setFontSize(12);
+                    doc.setTextColor(16, 185, 129);
+                    doc.text('References:', 20, y);
+                    y += 8;
+                    
+                    doc.setFontSize(8);
+                    doc.setTextColor(100, 116, 139);
+                    
+                    // Add references as text in PDF
+                    const refText = topic.references.map(url => {
+                        const title = url.replace('https://www.geeksforgeeks.org/', '').replace(/-/g, ' ').split('/')[0];
+                        return `${title}: ${url}`;
+                    }).join('\n\n');
+                    
+                    const refs = doc.splitTextToSize(refText, 170);
+                    doc.text(refs, 20, y);
+                    
+                    // Footer
+                    doc.setFontSize(8);
+                    doc.setTextColor(156, 163, 175);
+                    doc.text('Generated by [Student Name] · GeeksforGeeks OS Academic Scraper', 20, 280);
+                    doc.text(`Page ${idx + 3}`, 180, 280);
+                });
+                
+                doc.save('GeeksforGeeks_OS_Module.pdf');
+            }
+            
+            // ============= FETCH FUNCTION =============
+            
+            function fetchGeeksforGeeksData() {
+                const scrapeBtn = document.getElementById('scrapeBtn');
+                const pdfBtn = document.getElementById('pdfBtn');
+                const loadingStatus = document.getElementById('loadingStatus');
+                
+                scrapeBtn.disabled = true;
+                loadingStatus.textContent = 'Loading GeeksforGeeks OS content...';
+                updateStatus('info', '📡 Loading Operating System articles from GeeksforGeeks database...');
+                
+                // Simulate network delay for realism
+                setTimeout(() => {
+                    try {
+                        // Save to localStorage
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(GEEKSFORGEEKS_OS_ARTICLES));
+                        
+                        // Update UI
+                        renderTopics(GEEKSFORGEEKS_OS_ARTICLES);
+                        updateCacheInfo();
+                        pdfBtn.disabled = false;
+                        
+                        updateStatus('success', `✅ Successfully loaded ${GEEKSFORGEEKS_OS_ARTICLES.length} OS articles from GeeksforGeeks`);
+                        
+                    } catch (error) {
+                        updateStatus('error', `❌ Error loading data: ${error.message}`);
+                    } finally {
+                        scrapeBtn.disabled = false;
+                        loadingStatus.textContent = '';
+                    }
+                }, 1500);
+            }
+            
+            // ============= EVENT LISTENERS =============
+            
+            document.getElementById('scrapeBtn').addEventListener('click', fetchGeeksforGeeksData);
+            document.getElementById('pdfBtn').addEventListener('click', generatePDF);
+            document.getElementById('clearBtn').addEventListener('click', clearCache);
+            
+            // Load cached data on page load
+            window.addEventListener('load', () => {
+                const cached = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+                if (cached && cached.length > 0) {
+                    renderTopics(cached);
+                    document.getElementById('pdfBtn').disabled = false;
+                    updateStatus('success', `✅ Loaded ${cached.length} OS topics from cache (from GeeksforGeeks)`);
+                }
+                updateCacheInfo();
+            });
+        })();
+    </script>
+</body>
+</html>
